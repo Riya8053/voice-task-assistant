@@ -18,9 +18,21 @@ def detect_intent(text):
 
 def extract_reminder_details(text):
     text_lower = text.lower()
-    if "remind me to" in text_lower:
-        task_part = text_lower.split("remind me to")[1]
-        return task_part.strip()
+    
+    trigger_phrases = [
+        "remind me to",
+        "remind me about",
+        "reminder to",
+        "remind me",
+    ]
+    
+    for phrase in trigger_phrases:
+        if phrase in text_lower:
+            task_part = text_lower.split(phrase)[1]
+            cleaned = task_part.strip()
+            if cleaned:
+                return cleaned
+    
     return "unspecified task"
 
 def save_reminder(task):
